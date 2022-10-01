@@ -1,0 +1,7 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Stop nginx service
+      service: name=nginx state=stopped
+    - name: Undeploy, Purge and Remove deps of nginx 
+      apt: name=nginx state=absent purge=yes autoremove=yes
