@@ -1,0 +1,28 @@
+- hosts: all
+  #remote_user: ubuntu
+  become: yes
+  tasks:
+    - name: Install latest nginx version using apt
+      apt: name=nginx state=latest update_cache=true
+    - name: Set message page
+      copy:
+        dest: /var/www/html/index.html
+        content: "Hello World from SJSU-{{ansible_hostname}}"
+    - name: Restart nginx service
+      service: name=nginx state=restarted
+        
+        
+        
+vars:
+    default_path: /etc/nginx/sites-available/default
+        
+tasks:
+  - shell: date +%Y%m%d%H%M%S
+    register: timestamp        
+  - name: Register default site stat
+     stat:      
+      path: "{{ default_path }}"
+     register: nginxDefault
+  - name: Backup default site config
+    copy: src="{{ default_path }}" dest="{{ default_path }}_{{timestamp.stdout}}"
+    when: nginxDefault.stat.exists == True

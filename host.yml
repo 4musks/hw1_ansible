@@ -1,0 +1,7 @@
+[servers]
+172.31.92.210 server_name="ec2-3-80-208-42.compute-1.amazonaws.com"
+[all:vars]
+ansible_ssh_user=ubuntu
+ansible_ssh_private_key_file=/home/ubuntu/.ssh/ansibleServer.pem
+
+
